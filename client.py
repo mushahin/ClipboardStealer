@@ -6,7 +6,6 @@ import pyperclip
 import os
 import dnslib
 import base64
-import dns.resolver
 import socket
 import time
 import argparse
