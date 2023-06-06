@@ -8,14 +8,13 @@ file_path = r'Set_your_filepath_here'
 
 def receive_data():
     encoded_data = ""
-    end_marker = "!EN!"
+    end_marker = "!EN"
     while True:
         # Receive DNS query
         query_data, client = server_socket.recvfrom(4096)
         dns_query = DNSRecord.parse(query_data)
 
         # Extract the chunk from the query and append it to the data
-        #chunk = str(dns_query.q.qname).rstrip(".")
         chunk = str(dns_query.q.qname).split('.', 1)[0]
 
         #Look for end marker to catch last chunk
