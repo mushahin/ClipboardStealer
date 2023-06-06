@@ -20,13 +20,13 @@ The code pastes whatever is in the clipboard, encodes it, splits it into small c
 - Encoded data is then broken into small chunks
 - Each chunk is packed into a DNS query. Here's an example
 
-![img_1.png](img_1.png)
+![img_1.png](screenshots/img_1.png)
 
 Now this query will be sent through any public DNS server (I am using `8.8.8.8` in client.py) which in turn will send request to your c2 DNS server `shahin.com` 
 
 - On your C2, query will be split and qname (payload) will be decoded and re-assembled which will eventually save stolen clipboard data in a file 
 
-![img_2.png](img_2.png)
+![img_2.png](screenshots/img_2.png)
 
 This happens every 15 minutes, it only sends data if the content is different from last time it was sent
 
